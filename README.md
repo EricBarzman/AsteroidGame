@@ -1,6 +1,6 @@
 # ASTEROID #
 
-This is my attempt at coding in `JavaScript` the classic game "Asteroid"!
+This is my attempt at coding with `JavaScript` the classic "Asteroid" game!
 
 ## Description of the project ##
 
