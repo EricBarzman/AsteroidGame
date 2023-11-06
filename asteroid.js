@@ -305,6 +305,7 @@ function distBetweenPoints(x1, y1, x2, y2) {
 //Oh non !
 function gameOver(){
     ship.dead = true;
+    level = 0;
     text = "Game Over";
     textAlpha = 1.0;
 }
@@ -323,6 +324,7 @@ function newGame() {
     score = 0;
     level = 0;
     lives = 3;
+    asteroids = [];
     ship = new Ship();
     newLevel();
     console.log(text);
@@ -422,7 +424,7 @@ const thrust = new Sound("./sounds/thrust.m4a", 1, 0.1)
 const particles = []
 
 const lasers = [];
-const asteroids = []
+let asteroids = []
 
 let score = 0;
 let scoreHigh = 1000;
