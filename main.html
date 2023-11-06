@@ -3,11 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="style.css">
     <title>Asteroids --mini game</title>
 </head>
 <body>
-    <canvas width ="800" height ="600"></canvas>
+    <header>
+        <h1>Asteroids !</h1>
+    </header>
+        <main>
+            <div class="gameplay">
+                <h2 class="gameplay__title">Votre planète est menacée de collision par une ceinture d'astéroïdes !</h2>
+                
+                <p class="gameplay__text">Vous avez été choisi pour <em>sauver le monde</em> de cette menace de l'espace ! Votre but est de détruire tous les astéroïdes !</p>
+                <p class="gameplay__text">Chaque fois que vous touchez un astéroïde, il éclate en plusieurs morceaux.</p>
+                <p class="gameplay__text">Chaque collision avec un astéroïde vous coûte <em>une vie</em> !</p>
+                <p class="gameplay__text">Les vies sont affichées en haut à gauche, le score en haut à droite.</p></div>
+            
+                <canvas width ="800" height ="500"></canvas>
+            
+            <div class="story">                
+                <h2 class="instructions__title">Instructions</h2>
+                <p class="instructions__text">Faites pivoter le vaisseau avec les flèches <span>gauche</span> et <span>droite</span>.</p>
+                <p class="instructions__text"><em>Accélérer</em> avec la flèche <span>avant</span>.</p>
+                <p class="instructions__text">Il n'y a pas (ou presque) de friction dans l'espace. Pour ralentir, vous devrez tourner dans le sens opposé et envoyer les turbos jusqu'à freiner, comme une vraie <span>fusée</span> !</p>
+                <p class="instructions__text">Appuyez sur <span>espace</span> pour <em>tirer</em> !</p>
+            </div>           
+    </main>
+    <footer>
+        <p>HTML, CSS et code JS par ERIC BARZMAN</p>
+    </footer>
     <script src="asteroid.js"></script>
 </body>
 </html>

@@ -1,38 +1,47 @@
+/*
+*  Aloha ! Willkomen ! Bienvenu ! Welcome !
+*
+*  Ce code est écrit par Eric Barzman !
+*
+*
+*/
+
 const canv = document.querySelector('canvas')
 const ctx = canv.getContext('2d')
 
-//Our constants
+//
+
 const FPS = 30;  //Frames per Second... obviously
 
-const SHIP_SIZE = 30;  //size height in pixels
-const TURN_SPEED = 360; //will be turn speed in degrees/sec
-const THRUST_SPEED = 8;  //Acceleration of the ship, pixels/sec
-const FRICTION = 0.2; //friction coefficient of space (0 = none, 1 = lots)
+const SHIP_SIZE = 30;  //Taille du vaisseau en pixels
+const TURN_SPEED = 360; //Vitesse de rotation, en degrés/sec
+const THRUST_SPEED = 8;  //Accéleration en pixels/sec
+const FRICTION = 0.2; //coefficient de friction du... vide intersidéral ! (0 = rien, 1 = beaucoup)
 
 const SHIP_EXPLODE_DURATION = 0.12
-const SHIP_INVISIBILITY_DUR = 2 //in sec
+const SHIP_INVISIBILITY_DUR = 2 //en secondes
 const SHIP_BLINK_DUR = 0.1
 
-const ASTEROIDS_NUMBER = 3 ; //starting number of asteroids
-const ROIDS_SIZE = 100; //starting size of asteroid
-const ROIDS_SPEED = 30; //max starting speed in pix/sec
-const ROIDS_VERT = 10; //Average number of vertices on each asteroid
-const ROIDS_JAGGED = 0.3 //jaggedness of asteroid (0 none, 1 max)
-const ROIDS_LGE_POINTS = 20 //points for large asteroid
+const ASTEROIDS_NUMBER = 3 ; //nombre d'asteroides au début
+const ROIDS_SIZE = 100; //taille de départ d'un asteroide
+const ROIDS_SPEED = 30; //vitesse max au démarrage, pix/sec
+const ROIDS_VERT = 10; //Nombre moyen de vertices sur un astéroide
+const ROIDS_JAGGED = 0.3 //rugosité, imperfection d'un asteroid (0 none, 1 max)
+const ROIDS_LGE_POINTS = 20 //les points pour avoir détruit un gros asteroide
 const ROIDS_MID_POINTS = 50
 const ROIDS_SMALL_POINTS = 100
 
-const TEXT_FADE_TIME = 800 // in seconds
+const TEXT_FADE_TIME = 800 // en seconds
 const SOUND_ON = true;
 
 
-//The ship object
+//Le Vaisseau
 class Ship {
     constructor() {
         this.x = canv.width / 2,
         this.y = canv.height / 2,
-        this.r = SHIP_SIZE / 2,  //ship radius
-        this.a = 90 / 180 * Math.PI, //convert to radians
+        this.r = SHIP_SIZE / 2,  //radius du vaisseau
+        this.a = 90 / 180 * Math.PI, //converti en radians
         this.rot = 0,
         this.blinkNum = Math.ceil(SHIP_INVISIBILITY_DUR / SHIP_BLINK_DUR),
         this.blinkTime = Math.ceil(SHIP_BLINK_DUR * FPS),
@@ -48,6 +57,7 @@ class Ship {
 
     explodeShip() {
         this.explodeTime = Math.ceil(SHIP_EXPLODE_DURATION * FPS);
+        //baboom !
         drawExplosion(this.x, this.y, this.r);
         createParticles({
             object : ship,
@@ -63,15 +73,15 @@ class Ship {
         ctx.strokeStyle = colour;
         ctx.lineWidth = SHIP_SIZE / 20;
         ctx.beginPath();
-        ctx.moveTo(  //nose of ship
+        ctx.moveTo(  //proue
             x + 4/3 * r * Math.cos(a),
             y - 4/3 * r * Math.sin(a)
         );
-        ctx.lineTo(  //rear left
+        ctx.lineTo(  //arrière gauche
             x - r * (2/3 * Math.cos(a) + Math.sin(a)),
             y + r * (2/3 * Math.sin(a) - Math.cos(a))
         );
-        ctx.lineTo(   //rear right
+        ctx.lineTo(   //arrière droite
             x - r * (2/3 * Math.cos(a) - Math.sin(a)),
             y + r * (2/3 * Math.sin(a) + Math.cos(a))
         );
@@ -86,15 +96,15 @@ class Ship {
         ctx.strokeStyle = "red";
         ctx.lineWidth = SHIP_SIZE / 20;
         ctx.beginPath();
-        ctx.moveTo(  //rear left
+        ctx.moveTo(  //rear gauche
             this.x - this.r * (2/3 * Math.cos(this.a) + 0.5 * Math.sin(this.a)),
             this.y + this.r * (2/3 * Math.sin(this.a) - 0.5 * Math.cos(this.a))
         );
-        ctx.lineTo( //rear center
+        ctx.lineTo( //rear centre
             this.x - this.r * 6/3 * Math.cos(this.a),
             this.y + this.r * 6/3 * Math.sin(this.a)
         );
-        ctx.lineTo(   //rear right
+        ctx.lineTo(   //rear droite
             this.x - this.r * (2/3 * Math.cos(this.a) - 0.5 * Math.sin(this.a)),
             this.y + this.r * (2/3 * Math.sin(this.a) + 0.5 * Math.cos(this.a))
         );
@@ -105,7 +115,7 @@ class Ship {
 
     shootLaser() {
         if (this.canShoot && lasers.length < 10) {
-            lasers.push({ //from the nose of ship
+            lasers.push({ //depuis la proue du vaisseau
                 x: this.x + 4/3 * this.r * Math.cos(this.a),
                 y: this.y - 4/3 * this.r * Math.sin(this.a),
                 xvel : 500 * Math.cos(this.a) / FPS,
@@ -118,7 +128,7 @@ class Ship {
     }
     
 }
-
+//piou piou !
 function drawLasers() {
     for (const laser of lasers) {
         ctx.fillStyle = "salmon";
@@ -127,7 +137,7 @@ function drawLasers() {
         ctx.fill()
     }
 }
-
+//boum ! badaboum !
 function drawExplosion(x, y, r) {
     ctx.fillStyle = "darkred";
         ctx.beginPath();
@@ -172,7 +182,7 @@ class Asteroid {
         this.a = Math.random() * Math.PI * 2,
         this.vert = Math.floor(Math.random() * (ROIDS_VERT + 1) + ROIDS_VERT / 2)
         this.offs = []
-        //create vertices offset array
+        //vertices offset array
         for (let i = 0; i < this.vert; i++) {
             this.offs.push(Math.random() * ROIDS_JAGGED * 2 + 1 - ROIDS_JAGGED)
         }
@@ -254,7 +264,6 @@ function drawAsteroid() {
     }
 }
 
-
 class Particle {
     constructor({x, y, velocity, radius, color, fades}){
         this.x = x
@@ -293,7 +302,7 @@ class Particle {
 function distBetweenPoints(x1, y1, x2, y2) {
     return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))
 }
-
+//Oh non !
 function gameOver(){
     ship.dead = true;
     text = "Game Over";
@@ -336,7 +345,7 @@ function drawScores(){
     ctx.textBaseline = "middle";
     ctx.fillStyle = "white"
     ctx.font = "35px dejavu sans mono";
-    ctx.fillText(score, canv.width - SHIP_SIZE/2, SHIP_SIZE);
+    ctx.fillText(score, canv.width - SHIP_SIZE *3, SHIP_SIZE);
 
     //High score
     ctx.textAlign = "center";
@@ -382,7 +391,7 @@ function createParticles({object, color, fades, radius, nbr, speed=3}){
 
 //MUSIC
 
-//Sound effectssss
+//Sound effectssssss
 class Sound {
     constructor(src, maxStreams = 1, vol = 1.0) {
         this.streamNum = 0;
@@ -467,9 +476,9 @@ document.addEventListener("keyup", (event) => {
 } );
 
 
-//The Fabled Game Loop
 setInterval(update, 1000 / FPS)
 
+//The Fabled Game Loop !
 function update(){   
     
     let blinkOn = ship.blinkNum % 2 === 0;
@@ -480,7 +489,7 @@ function update(){
     ctx.fillRect( 0, 0, canv.width, canv.height);
     
 
-    //The sky
+    //Le Ciel étoilé
     particles.forEach((particle, i) => {  
         //Respawn the stars (particles as well) within the screen
         if (particle.y - particle.radius >= canv.height) {
@@ -496,7 +505,7 @@ function update(){
         } else particle.update()
     })
 
-    //Thrust
+    //En avant !
     if (ship.thrusting && !ship.dead) {
         ship.thrust.x += THRUST_SPEED * Math.cos(ship.a) / FPS;
         ship.thrust.y -= THRUST_SPEED * Math.sin(ship.a) / FPS;
@@ -527,14 +536,6 @@ function update(){
     drawLasers();
 
     drawGameText();
-
-    //Draw lives
-    for (let i = 0; i < lives; i++) {
-        lifeColour = exploding && i == lives - 1 ? "red" : "white";
-        ship.drawShip(SHIP_SIZE + i * SHIP_SIZE *1.2, SHIP_SIZE, ship.r, 0.5 * Math.PI, lifeColour)
-    }
-    
-    drawScores();
     
     //Check for Laser-Asteroid collision
     asteroids.forEach((asteroid, index) => {
@@ -560,6 +561,7 @@ function update(){
                     if (lives === 0) {
                         ship.explodeShip();
                         destroyAsteroid(index);
+                        //Oh non !
                         gameOver();
                     }
                 }
@@ -577,7 +579,7 @@ function update(){
         }
     }   
 
-    //Screen is a torus
+    //L'espace-temps n'est qu'un torus... un gros beignet géant
     if (ship.x < 0 - ship.r) {
         ship.x = canv.width + ship.r;
     } else if (ship.x > canv.width + ship.r)
@@ -589,6 +591,14 @@ function update(){
         ship.y = 0 - ship.r;
 
     drawAsteroid()
+
+    //Draw lives
+    for (let i = 0; i < lives; i++) {
+        lifeColour = exploding && i == lives - 1 ? "red" : "white";
+        ship.drawShip( 70 + SHIP_SIZE + i * SHIP_SIZE *1.2, SHIP_SIZE, ship.r, 0.5 * Math.PI, lifeColour)
+    }
+    
+    drawScores();
     
     //Update the Lasers
     lasers.forEach((laser, index) => {
@@ -600,7 +610,7 @@ function update(){
         laser.x += laser.xvel;
         laser.y += laser.yvel;
 
-        //calc distance travelled
+        //calculer distance parcourue
         laser.dist += Math.sqrt(Math.pow(laser.xvel, 2) + Math.pow(laser.yvel, 2))
 
         if (laser.x < 0)
@@ -618,7 +628,7 @@ function update(){
         asteroid.x += asteroid.vel.x
         asteroid.y += asteroid.vel.y
         
-        //handle edge of screen
+        //téléportation d'un côté à l'autre
         if (asteroid.x < 0 - asteroid.r / 2) {
             asteroid.x = canv.width + asteroid.r / 2
         } else if (asteroid.x > canv.width + asteroid.r / 2) {

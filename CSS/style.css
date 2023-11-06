@@ -1,0 +1,99 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    background-color: #4f4f4f;
+}
+
+/* HEADER */
+
+header {
+	background-color: #a0a0a0;
+	padding-top: 0.5rem;
+	height: 7vh;
+}
+
+h1 {
+	margin: 0 auto;
+	text-align: center;
+	font-size: 1.6rem;
+	font-weight: bold;
+	background-color: #6e6c6c;
+	display: block;
+	width: 30%;
+	padding: 0.5rem;
+	border-radius: 30px;
+}
+
+/* CANVAS */
+
+canvas {
+    border-radius: 15%;
+}
+
+/* MAIN */
+
+main {
+	background-color: #4f4f4f;
+	display: flex;
+	justify-content: revert;
+	height: 80vh;
+    margin: 2rem 0;
+}
+
+.gameplay, .story {
+	border-radius: 30px;
+	padding: 1rem;
+	margin: auto 1.5rem;
+    background-color: #a0a0a0;
+    width : 18%;
+}
+
+h2 {
+	font-size: 1.3rem;
+	font-weight: 600;
+	padding: 1rem;
+    margin: 0.5rem;
+    border-bottom: solid 1.5px;    
+}
+
+p {
+	margin-bottom: 1rem;
+	line-height: 1.7rem;
+}
+
+.intructions__title {
+	font-size: 1.3rem;
+	font-weight: 600;
+}
+
+.gameplay__title {
+	font-size: 1.3rem;
+	font-weight: 600;
+}
+
+span {
+    padding : 0.5rem;
+    background-color: white;
+    border-radius : 10px;
+    text-shadow: #666;
+}
+
+em {
+    padding : 0.5rem;
+    background-color: #666;
+    border-radius : 10px;
+    text-shadow: #666;
+}
+
+/* FOOTER */
+
+footer {
+	background-color: #a0a0a0;
+	padding: 0.5rem;
+	/* height: 10vh; */
+	text-align: center;
+	font-weight: 700;
+}
